@@ -1,4 +1,4 @@
-import { getPosts } from "@/utils/posts";
+import * as api from "@/utils/posts";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -6,9 +6,23 @@ const initialState = {
 };
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await getPosts();
+  const response = await api.getPosts();
   return response.data;
 });
+
+export const addPost = createAsyncThunk(
+  "posts/addNewPost",
+  async ({ creator, title, message, tags, selectedFile }) => {
+    const response = await api.createPost({
+      creator,
+      title,
+      message,
+      tags,
+      selectedFile,
+    });
+    return response.data;
+  }
+);
 
 const postsSlice = createSlice({
   name: "posts",
@@ -18,6 +32,9 @@ const postsSlice = createSlice({
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
       state.posts = action.payload.posts;
       return state;
+    });
+    builder.addCase(addPost.fulfilled, (state, action) => {
+      state.posts.push(action.payload.newPost);
     });
   },
 });

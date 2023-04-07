@@ -1,3 +1,4 @@
+import { createPost } from "@/utils/posts";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -23,6 +24,10 @@ function InputForm() {
 
   const handleSubmit = async () => {
     const data = inputData;
+    const post = await createPost(data);
+
+    console.log(post);
+    // TODO create alert notification
   };
 
   const handleReset = () => {
@@ -35,9 +40,9 @@ function InputForm() {
   };
 
   return (
-    <div className="border rounded p-3">
+    <div className="border rounded p-3 bg-light">
       <Form>
-        <h3>Create a Memory</h3>
+        <h3 className="text-center">Create a Memory</h3>
         <Form.Group className="mb-3" controlId="creator">
           <Form.Control
             type="text"

@@ -5,8 +5,18 @@ import Col from "react-bootstrap/Col";
 import InputForm from "@/components/Form";
 import AppBar from "@/components/AppBar";
 import Posts from "@/components/Posts";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts } from "@/redux/reducer/posts";
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts.posts);
+
+  useEffect(() => {
+    dispatch(fetchPosts()).then(() => console.log("dispatching done"));
+  }, []);
+
   return (
     <>
       <Head>
@@ -20,7 +30,7 @@ export default function Home() {
           <AppBar />
           <Row>
             <Col xs={12} md={8}>
-              <Posts />
+              <Posts data={posts} />
             </Col>
             <Col xs={8} md={4}>
               <InputForm />

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addPost } from "@/redux/reducer/posts";
 import FileBase from "react-file-base64";
 
-// TODO: set create logic for reset form value
+// TODO: set create logic animation for reset form value
 
 function InputForm() {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function InputForm() {
   };
 
   return (
-    <div className="border rounded p-3 bg-light m-4">
+    <div className="border rounded p-3 bg-white m-4" style={{ width: "19rem" }}>
       <Form>
         <h3 className="text-center">Create a Memory</h3>
         <Form.Group className="mb-3" controlId="creator">

@@ -94,10 +94,10 @@ function UpdateModal({ show, handleClose, id }) {
       </Container>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Discard
+          <i class="fa-solid fa-ban"></i> Discard
         </Button>
         <Button variant="danger" onClick={() => dispatch(deletePost(id))}>
-          Delete
+          <i class="fa-solid fa-trash"></i> Delete
         </Button>
         <Button
           variant="primary"
@@ -106,7 +106,7 @@ function UpdateModal({ show, handleClose, id }) {
             handleClose();
           }}
         >
-          Save Changes
+          <i class="fa-solid fa-floppy-disk"></i> Save
         </Button>
       </Modal.Footer>
     </Modal>

@@ -14,7 +14,7 @@ export default function Home() {
   const posts = useSelector((state) => state.posts.posts);
 
   useEffect(() => {
-    dispatch(fetchPosts()).then(() => console.log("dispatching done"));
+    dispatch(fetchPosts());
   }, [dispatch]);
 
   return (
@@ -37,12 +37,11 @@ export default function Home() {
         <Container>
           <AppBar />
           <Row>
-            <Col xs={12} md={8}>
+            <Col xs={12} md={6} lg={8}>
               <Posts data={posts} />
             </Col>
-            <Col xs={8} md={4}>
+            <Col xs={12} md={6} lg={4}>
               <InputForm />
-              {/* <button onClick={() => console.log(posts)}>Click</button> */}
             </Col>
           </Row>
         </Container>

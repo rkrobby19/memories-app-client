@@ -24,6 +24,22 @@ export const addPost = createAsyncThunk(
   }
 );
 
+export const updatedPost = createAsyncThunk(
+  "posts/updatePostById",
+  async ({ id, inputData }) => {
+    const response = await api.updatePostById(id, inputData);
+    return response.data;
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "posts/deletePostById",
+  async (id) => {
+    const response = await api.deletePostById(id);
+    return response.data;
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -35,6 +51,16 @@ const postsSlice = createSlice({
     });
     builder.addCase(addPost.fulfilled, (state, action) => {
       state.posts.push(action.payload.newPost);
+    });
+    builder.addCase(updatedPost.fulfilled, (state, action) => {
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload.post._id ? action.payload.post : post
+      );
+    });
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+      state.posts = state.posts.filter(
+        (post) => post._id !== action.payload.post._id
+      );
     });
   },
 });

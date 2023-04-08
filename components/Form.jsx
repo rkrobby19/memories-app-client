@@ -1,9 +1,11 @@
-import { addPost } from "@/redux/reducer/posts";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
+import { addPost } from "@/redux/reducer/posts";
 import FileBase from "react-file-base64";
+
+// TODO: set create logic for reset form value
 
 function InputForm() {
   const dispatch = useDispatch();
@@ -30,11 +32,6 @@ function InputForm() {
       tags: "",
       selectedFile: "",
     });
-    // TODO: selectedFile clear doesnt work
-  };
-
-  const test = () => {
-    console.log(postData);
   };
 
   return (
@@ -92,12 +89,17 @@ function InputForm() {
             onDone={({ base64 }) =>
               setPostData({ ...postData, selectedFile: base64 })
             }
-            // TODO: filebase payload too large
           />
         </Form.Group>
       </Form>
       <div className="d-grid gap-2">
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            handleSubmit();
+            handleReset();
+          }}
+        >
           Submit
         </Button>
         <Button variant="danger" size="sm" onClick={handleReset}>

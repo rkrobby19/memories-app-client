@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:8000/api";
+const url = process.env.NEXT_PUBLIC_DB_URI;
 
 export const createPost = async ({
   creator,

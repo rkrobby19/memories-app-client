@@ -3,10 +3,14 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import UpdateModal from "./UpdateModal";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { likePost } from "@/redux/reducer/posts";
 
 // TODO add like counter
 
 function Post({ data }) {
+  const dispatch = useDispatch();
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -54,9 +58,9 @@ function Post({ data }) {
         <Button
           variant="primary"
           className="m-2"
-          onClick={() => alert("Like Clicked")}
+          onClick={() => dispatch(likePost(data._id))}
         >
-          <i className="fa-solid fa-thumbs-up"></i> Like
+          <i className="fa-solid fa-thumbs-up"></i> {data.likeCount} Like
         </Button>
       </Card>
 

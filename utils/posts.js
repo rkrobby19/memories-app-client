@@ -11,7 +11,7 @@ export const createPost = async ({
 }) => {
   const tag = tags.split(",");
   const data = { creator, title, message, tags: tag, selectedFile };
-  const newPost = await axios.post(`${url}/post`, data);
+  const newPost = await axios.post(`${url}/posts`, data);
 
   return newPost;
 };
@@ -29,6 +29,12 @@ export const updatePostById = async (id, inputData) => {
   const updatedPost = await axios.put(`${url}/posts/${id}`, postData);
 
   return updatedPost;
+};
+
+export const likePostById = async (id) => {
+  const likePost = await axios.put(`${url}/posts/${id}/likePost`);
+
+  return likePost;
 };
 
 export const deletePostById = async (id) => {

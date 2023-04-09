@@ -34,6 +34,7 @@ export default function Home() {
         {/* TODO: find alternate to render fontawesome icons */}
       </Head>
       <main>
+        {/* TODO: reverse row stack when resizing */}
         <Container>
           <AppBar />
           <Row>

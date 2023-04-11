@@ -3,8 +3,12 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "./Auth.module.css";
 import Link from "next/link";
 import SignUpMenu from "./SignUpMenu";
+import { useDispatch } from "react-redux";
+import { signIn, signUp } from "@/redux/reducer/user";
 
 function Auth() {
+  const dispatch = useDispatch();
+
   const initialState = {
     firstName: "",
     lastName: "",
@@ -27,8 +31,11 @@ function Auth() {
   };
 
   const handleSubmit = async () => {
-    alert(`button clicked`);
-    console.log(inputs);
+    if (isSignup) {
+      dispatch(signUp(inputs));
+    } else {
+      dispatch(signIn(inputs));
+    }
   };
 
   const switchMode = () => {

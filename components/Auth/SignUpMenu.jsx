@@ -2,20 +2,20 @@ import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
+const DB_URI = process.env.NEXT_PUBLIC_DB_URI;
+
 function SignUpMenu() {
   const loginGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
-      // fetching userinfo can be done on the client or the server
-      const userInfo = await axios
-        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        })
-        .then((res) => res.data);
-
-      console.log(userInfo);
+    onSuccess: async ({ code }) => {
+      const tokens = await axios.post(`${DB_URI}/auth/google`, {
+        code,
+      });
+      console.log(tokens);
+      // TODO save the access token to the client storage
+      // console.log(tokens.data.tokens.id_token); <- Google JWT access token
+      // console.lgo(tokens.data.tokens.refresh_token) <- for refresh the access token
     },
-    // flow: 'implicit', // implicit is the default
+    flow: "auth-code",
   });
 
   const loginSocial = () => {

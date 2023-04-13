@@ -3,10 +3,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: [],
+  status: "idle",
+  // status: 'idle' | 'loading' | 'succeeded' | 'failed',
+  error: null,
+  // error: string | null
 };
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   const response = await api.getPosts();
+  console.log(response.data);
   return response.data;
 });
 
@@ -50,7 +55,17 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchPosts.pending, (state, action) => {
+      state.status = "loading";
+      return state;
+    });
+    builder.addCase(fetchPosts.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = "error";
+      return state;
+    });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
+      state.status = "succeeded";
       state.posts = action.payload.posts;
       return state;
     });

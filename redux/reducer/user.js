@@ -3,6 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {},
+  status: "idle",
+  error: null,
 };
 
 export const signUp = createAsyncThunk(
@@ -35,19 +37,29 @@ export const signIn = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logOut(state, action) {
+      localStorage.clear();
+      state.user = {};
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.user = action.payload.user;
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
       return state;
     });
     builder.addCase(signIn.fulfilled, (state, action) => {
       state.user = action.payload.user;
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
       return state;
     });
   },
 });
 
-export const userAction = userSlice.actions;
+export const { logOut } = userSlice.actions;
 
 export default userSlice.reducer;

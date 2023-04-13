@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const url = process.env.NEXT_PUBLIC_DB_URI;
+import { API } from "./uri";
 
 export const userSignUp = async ({
   firstName,
@@ -10,14 +8,14 @@ export const userSignUp = async ({
   confirmPassword,
 }) => {
   const data = { firstName, lastName, email, password, confirmPassword };
-  const user = await axios.post(`${url}/users/signup`, data);
+  const user = await API.post(`/users/signup`, data);
 
   return user;
 };
 
 export const userSignIn = async ({ email, password }) => {
   const data = { email, password };
-  const user = await axios.post(`${url}/users/signin`, data);
+  const user = await API.post(`/users/signin`, data);
 
   return user;
 };

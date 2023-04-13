@@ -31,6 +31,7 @@ function Auth() {
   };
 
   const handleSubmit = async () => {
+    // TODO add page redirector after login successfull
     if (isSignup) {
       dispatch(signUp(inputs));
     } else {

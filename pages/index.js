@@ -61,10 +61,8 @@ export default function Home() {
           <Row>
             <Col xs={12} md={6} lg={8}>
               {content}
-              {content}
             </Col>
             <Col xs={12} md={6} lg={4}>
-              <InputForm user={user} />
               <InputForm user={user} />
             </Col>
           </Row>

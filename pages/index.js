@@ -22,7 +22,12 @@ export default function Home() {
   } else if (postStatus === "succeeded") {
     content = <Posts data={posts} />;
   } else if (postStatus === "failed") {
-    content = <div>{error}</div>;
+    content = (
+      <div>
+        <p>Error happens</p>
+        {error}
+      </div>
+    );
   }
 
   useEffect(() => {

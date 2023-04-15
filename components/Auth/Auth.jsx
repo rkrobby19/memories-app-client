@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, InputGroup } from "react-bootstrap";
 import styles from "./Auth.module.css";
 import Link from "next/link";
 import SignUpMenu from "./SignUpMenu";
 import { useDispatch } from "react-redux";
 import { signIn, signUp } from "@/redux/reducer/user";
+import { useRouter } from "next/router";
 
 function Auth() {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const initialState = {
     firstName: "",
@@ -31,16 +33,28 @@ function Auth() {
   };
 
   const handleSubmit = async () => {
-    // TODO add page redirector after login successfull
+    // TODO sign up logic redirection
     if (isSignup) {
       dispatch(signUp(inputs));
+      // router.push("/");
     } else {
       dispatch(signIn(inputs));
+      router.push("/");
     }
   };
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const toggleConfirm = () => {
+    setShowConfirm(!showConfirm);
   };
 
   return (
@@ -84,25 +98,41 @@ function Auth() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            id="password"
-            onChange={handleOnChange}
-          />
+          <InputGroup>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              id="password"
+              onChange={handleOnChange}
+            />
+            <InputGroup.Text id="showPassword" onClick={togglePassword}>
+              {showPassword ? (
+                <i className="fa-solid fa-eye-slash"></i>
+              ) : (
+                <i className="fa-solid fa-eye"></i>
+              )}
+            </InputGroup.Text>
+          </InputGroup>
         </Form.Group>
 
         {isSignup && (
-          <>
-            <Form.Group className="mb-3">
+          <Form.Group className="mb-3">
+            <InputGroup>
               <Form.Control
-                type="password"
+                type={showConfirm ? "text" : "password"}
                 placeholder="Confirm Password"
                 id="confirmPassword"
                 onChange={handleOnChange}
               />
-            </Form.Group>
-          </>
+              <InputGroup.Text id="showConfirmPassword" onClick={toggleConfirm}>
+                {showConfirm ? (
+                  <i className="fa-solid fa-eye-slash"></i>
+                ) : (
+                  <i className="fa-solid fa-eye"></i>
+                )}
+              </InputGroup.Text>
+            </InputGroup>
+          </Form.Group>
         )}
 
         {!isSignup && (

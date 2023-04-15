@@ -26,7 +26,6 @@ function InputForm() {
 
   const handleReset = () => {
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -38,7 +37,7 @@ function InputForm() {
     <div className="border rounded p-3 bg-white m-4" style={{ width: "19rem" }}>
       <Form>
         <h3 className="text-center">Create a Memory</h3>
-        <Form.Group className="mb-3" controlId="creator">
+        {/* <Form.Group className="mb-3" controlId="creator">
           <Form.Control
             type="text"
             placeholder="Creator"
@@ -47,7 +46,7 @@ function InputForm() {
               setPostData({ ...postData, creator: e.target.value })
             }
           />
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group className="mb-3" controlId="title">
           <Form.Control

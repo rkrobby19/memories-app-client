@@ -6,8 +6,6 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
 
-// TODO add like counter
-
 function Post({ data }) {
   const dispatch = useDispatch();
 
@@ -15,9 +13,6 @@ function Post({ data }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const date = new Date(data.createdAt);
-  const d = date.toDateString();
 
   return (
     <div style={{ width: "18rem" }}>
@@ -31,7 +26,7 @@ function Post({ data }) {
         <div className="container z-3 position-absolute mt-2">
           <div className="d-flex justify-content-between">
             <div>
-              <h5 className="fw-bold text-dark">{data.creator}</h5>
+              <h5 className="fw-bold text-dark">{data.name}</h5>
             </div>
             <div>
               <a className="icon-link">
@@ -60,7 +55,8 @@ function Post({ data }) {
           className="m-2"
           onClick={() => dispatch(likePost(data._id))}
         >
-          <i className="fa-solid fa-thumbs-up"></i> {data.likeCount} Like
+          <i className="fa-solid fa-thumbs-up"></i> {data.likes.length}{" "}
+          {data.likes.length > 1 ? "Likes" : "Like"}
         </Button>
       </Card>
 

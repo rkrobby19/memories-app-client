@@ -1,19 +1,37 @@
 import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import decode from "jwt-decode";
+import { useRouter } from "next/router";
 
 const DB_URI = process.env.NEXT_PUBLIC_DB_URI;
 
 function SignUpMenu() {
+  const router = useRouter();
+
   const loginGoogle = useGoogleLogin({
     onSuccess: async ({ code }) => {
       const tokens = await axios.post(`${DB_URI}/auth/google`, {
         code,
       });
-      console.log(tokens);
-      // TODO save the access token to the client storage
+      // console.log(tokens);
+
+      const accessToken = tokens.data.tokens.id_token;
+      const user = decode(accessToken);
+
+      localStorage.setItem("token", JSON.stringify(accessToken));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: user.sub,
+          email: user.email,
+          firstName: user.given_name,
+          lastName: user.family_name,
+        })
+      );
+      router.push("/");
       // console.log(tokens.data.tokens.id_token); <- Google JWT access token
-      // console.lgo(tokens.data.tokens.refresh_token) <- for refresh the access token
+      // console.lgo(tokens.data.tokens.refresh_token) <- send this to BE for refresh the access token
     },
     flow: "auth-code",
   });

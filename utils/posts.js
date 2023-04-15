@@ -1,5 +1,13 @@
 import { API } from "./uri";
 
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    req.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+  }
+  return req;
+});
+
 export const createPost = async ({
   creator,
   title,
@@ -20,11 +28,8 @@ export const getPosts = async () => {
   return data;
 };
 
-export const updatePostById = async (id, inputData) => {
-  const { creator, title, message, tags, selectedFile } = inputData;
-  const tag = tags.split(",");
-  const postData = { creator, title, message, tags: tag, selectedFile };
-  const updatedPost = await API.put(`/posts/${id}`, postData);
+export const updatePostById = async ({ id, inputData }) => {
+  const updatedPost = await API.put(`/posts/${id}`, inputData);
 
   return updatedPost;
 };

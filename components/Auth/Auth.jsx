@@ -36,7 +36,7 @@ function Auth() {
     // TODO sign up logic redirection
     if (isSignup) {
       dispatch(signUp(inputs));
-      // router.push("/");
+      router.push("/");
     } else {
       dispatch(signIn(inputs));
       router.push("/");

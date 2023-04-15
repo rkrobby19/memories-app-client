@@ -1,18 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import UpdateModal from "./UpdateModal";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
+import { useRouter } from "next/router";
 
 function Post({ data }) {
   const dispatch = useDispatch();
+
+  const [user, setUser] = useState({});
+  const router = useRouter();
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const Likes = () => {
+    if (data.likes.length > 0) {
+      return data.likes.find((like) => like === user?._id) ? (
+        <>
+          <i className="fa-solid fa-thumbs-up"></i> {data.likes.length}{" "}
+          {data.likes.length > 1 ? "Likes" : "Like"}
+        </>
+      ) : (
+        <>
+          <i class="fa-regular fa-thumbs-up"></i> {data.likes.length}{" "}
+          {data.likes.length > 1 ? "Likes" : "Like"}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <i class="fa-regular fa-thumbs-up"></i>
+      </>
+    );
+  };
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && token) {
+      setUser(user);
+    }
+  }, [router]);
 
   return (
     <div style={{ width: "18rem" }}>
@@ -28,14 +63,17 @@ function Post({ data }) {
             <div>
               <h5 className="fw-bold text-dark">{data.name}</h5>
             </div>
-            <div>
-              <a className="icon-link">
-                <i
-                  className="fa-solid fa-pen-to-square text-dark"
-                  onClick={handleShow}
-                ></i>
-              </a>
-            </div>
+
+            {data.creator === user._id && (
+              <div>
+                <a className="icon-link">
+                  <i
+                    className="fa-solid fa-pen-to-square text-dark"
+                    onClick={handleShow}
+                  ></i>
+                </a>
+              </div>
+            )}
           </div>
           <p className="text-dark text-start">
             {moment(data.createdAt).fromNow()}
@@ -54,9 +92,9 @@ function Post({ data }) {
           variant="primary"
           className="m-2"
           onClick={() => dispatch(likePost(data._id))}
+          disabled={!user._id}
         >
-          <i className="fa-solid fa-thumbs-up"></i> {data.likes.length}{" "}
-          {data.likes.length > 1 ? "Likes" : "Like"}
+          <Likes />
         </Button>
       </Card>
 

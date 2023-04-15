@@ -23,7 +23,7 @@ function SignUpMenu() {
       localStorage.setItem(
         "user",
         JSON.stringify({
-          id: user.sub,
+          _id: user.sub,
           email: user.email,
           firstName: user.given_name,
           lastName: user.family_name,

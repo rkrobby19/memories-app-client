@@ -2,13 +2,13 @@ import Head from "next/head";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import InputForm from "@/components/Form";
-import AppBar from "@/components/AppBar";
-import Posts from "@/components/Posts";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "@/redux/reducer/posts";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/Animation/LoadingSpinner";
+import AppBar from "@/components/Navbar/AppBar";
+import InputForm from "@/components/Form/InputForm";
+import Posts from "@/components/Posts/Posts";
 
 export default function Home() {
   const dispatch = useDispatch();

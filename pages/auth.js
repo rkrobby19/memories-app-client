@@ -1,4 +1,4 @@
-import AppBar from "@/components/AppBar";
+import AppBar from "@/components/Navbar/AppBar";
 import Auth from "@/components/Auth/Auth";
 import Head from "next/head";
 import React from "react";

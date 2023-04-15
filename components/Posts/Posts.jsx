@@ -1,6 +1,6 @@
 import React from "react";
-import Post from "./Post";
 import { useSelector } from "react-redux";
+import Post from "./Post";
 
 function Posts({ user }) {
   const posts = useSelector((state) => state.posts.posts);

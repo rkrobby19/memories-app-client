@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import UpdateModal from "./UpdateModal";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
+import UpdateModal from "../Modals/UpdateModal";
 
 function Post({ data, user }) {
   const dispatch = useDispatch();

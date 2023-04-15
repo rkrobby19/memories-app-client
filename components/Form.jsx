@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { addPost } from "@/redux/reducer/posts";
 import FileBase from "react-file-base64";
+import { useRouter } from "next/router";
 
 // TODO: set create logic animation for reset form value
 
 function InputForm() {
+  const [user, setUser] = useState({});
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: "",
@@ -33,20 +37,33 @@ function InputForm() {
     });
   };
 
+  // TODO fix bug not rendering when user already logged in
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && token) {
+      setUser(user);
+    }
+  }, [router]);
+
+  if (!user.email) {
+    return (
+      <div
+        className="border rounded p-3 bg-white m-4"
+        style={{ width: "19rem" }}
+      >
+        <h5 className="text-center">
+          Please Sign In to create your own memories and like other's memories.
+        </h5>
+      </div>
+    );
+  }
+
   return (
     <div className="border rounded p-3 bg-white m-4" style={{ width: "19rem" }}>
       <Form>
         <h3 className="text-center">Create a Memory</h3>
-        {/* <Form.Group className="mb-3" controlId="creator">
-          <Form.Control
-            type="text"
-            placeholder="Creator"
-            value={postData.creator}
-            onChange={(e) =>
-              setPostData({ ...postData, creator: e.target.value })
-            }
-          />
-        </Form.Group> */}
 
         <Form.Group className="mb-3" controlId="title">
           <Form.Control

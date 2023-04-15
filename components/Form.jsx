@@ -7,7 +7,7 @@ import FileBase from "react-file-base64";
 
 // TODO: set create logic animation for reset form value
 
-function InputForm() {
+function InputForm({ user }) {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: "",
@@ -26,7 +26,6 @@ function InputForm() {
 
   const handleReset = () => {
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -34,20 +33,23 @@ function InputForm() {
     });
   };
 
+  if (!user.email) {
+    return (
+      <div
+        className="border rounded p-3 bg-white m-4"
+        style={{ width: "19rem" }}
+      >
+        <h5 className="text-center">
+          Please Sign In to create your own memories and like other's memories.
+        </h5>
+      </div>
+    );
+  }
+
   return (
     <div className="border rounded p-3 bg-white m-4" style={{ width: "19rem" }}>
       <Form>
         <h3 className="text-center">Create a Memory</h3>
-        <Form.Group className="mb-3" controlId="creator">
-          <Form.Control
-            type="text"
-            placeholder="Creator"
-            value={postData.creator}
-            onChange={(e) =>
-              setPostData({ ...postData, creator: e.target.value })
-            }
-          />
-        </Form.Group>
 
         <Form.Group className="mb-3" controlId="title">
           <Form.Control

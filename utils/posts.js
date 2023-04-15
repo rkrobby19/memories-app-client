@@ -1,6 +1,12 @@
-import axios from "axios";
+import { API } from "./uri";
 
-const url = process.env.NEXT_PUBLIC_DB_URI;
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    req.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+  }
+  return req;
+});
 
 export const createPost = async ({
   creator,
@@ -11,34 +17,31 @@ export const createPost = async ({
 }) => {
   const tag = tags.split(",");
   const data = { creator, title, message, tags: tag, selectedFile };
-  const newPost = await axios.post(`${url}/posts`, data);
+  const newPost = await API.post(`/posts`, data);
 
   return newPost;
 };
 
 export const getPosts = async () => {
-  const data = await axios.get(`${url}/posts`);
+  const data = await API.get(`/posts`);
 
   return data;
 };
 
-export const updatePostById = async (id, inputData) => {
-  const { creator, title, message, tags, selectedFile } = inputData;
-  const tag = tags.split(",");
-  const postData = { creator, title, message, tags: tag, selectedFile };
-  const updatedPost = await axios.put(`${url}/posts/${id}`, postData);
+export const updatePostById = async ({ id, inputData }) => {
+  const updatedPost = await API.put(`/posts/${id}`, inputData);
 
   return updatedPost;
 };
 
 export const likePostById = async (id) => {
-  const likePost = await axios.put(`${url}/posts/${id}/likePost`);
+  const likePost = await API.put(`/posts/${id}/likePost`);
 
   return likePost;
 };
 
 export const deletePostById = async (id) => {
-  const data = await axios.delete(`${url}/posts/${id}`);
+  const data = await API.delete(`/posts/${id}`);
 
   return data;
 };

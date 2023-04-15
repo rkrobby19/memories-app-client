@@ -3,6 +3,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: [],
+  status: "idle",
+  // status: 'idle' | 'loading' | 'succeeded' | 'failed',
+  error: null,
+  // error: string | null
 };
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
@@ -27,7 +31,10 @@ export const addPost = createAsyncThunk(
 export const updatedPost = createAsyncThunk(
   "posts/updatePostById",
   async ({ id, inputData }) => {
-    const response = await api.updatePostById(id, inputData);
+    const response = await api.updatePostById({
+      id,
+      inputData,
+    });
     return response.data;
   }
 );
@@ -50,12 +57,22 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchPosts.pending, (state, action) => {
+      state.status = "loading";
+      return state;
+    });
+    builder.addCase(fetchPosts.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = "error";
+      return state;
+    });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
+      state.status = "succeeded";
       state.posts = action.payload.posts;
       return state;
     });
     builder.addCase(addPost.fulfilled, (state, action) => {
-      state.posts.push(action.payload.newPost);
+      state.posts.push(action.payload.post);
     });
     builder.addCase(updatedPost.fulfilled, (state, action) => {
       state.posts = state.posts.map((post) =>
@@ -64,9 +81,7 @@ const postsSlice = createSlice({
     });
     builder.addCase(likePost.fulfilled, (state, action) => {
       state.posts = state.posts.map((post) =>
-        post._id === action.payload.likePost._id
-          ? action.payload.likePost
-          : post
+        post._id === action.payload.post._id ? action.payload.post : post
       );
     });
     builder.addCase(deletePost.fulfilled, (state, action) => {

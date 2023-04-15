@@ -6,9 +6,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
 
-// TODO add like counter
-
-function Post({ data }) {
+function Post({ data, user }) {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -16,8 +14,27 @@ function Post({ data }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const date = new Date(data.createdAt);
-  const d = date.toDateString();
+  const Likes = () => {
+    if (data.likes.length > 0) {
+      return data.likes.find((like) => like === user?._id) ? (
+        <>
+          <i className="fa-solid fa-thumbs-up"></i> {data.likes.length}{" "}
+          {data.likes.length > 1 ? "Likes" : "Like"}
+        </>
+      ) : (
+        <>
+          <i className="fa-regular fa-thumbs-up"></i> {data.likes.length}{" "}
+          {data.likes.length > 1 ? "Likes" : "Like"}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <i className="fa-regular fa-thumbs-up"></i>
+      </>
+    );
+  };
 
   return (
     <div style={{ width: "18rem" }}>
@@ -31,16 +48,19 @@ function Post({ data }) {
         <div className="container z-3 position-absolute mt-2">
           <div className="d-flex justify-content-between">
             <div>
-              <h5 className="fw-bold text-dark">{data.creator}</h5>
+              <h5 className="fw-bold text-dark">{data.name}</h5>
             </div>
-            <div>
-              <a className="icon-link">
-                <i
-                  className="fa-solid fa-pen-to-square text-dark"
-                  onClick={handleShow}
-                ></i>
-              </a>
-            </div>
+
+            {data.creator === user._id && (
+              <div>
+                <a className="icon-link">
+                  <i
+                    className="fa-solid fa-pen-to-square text-dark"
+                    onClick={handleShow}
+                  ></i>
+                </a>
+              </div>
+            )}
           </div>
           <p className="text-dark text-start">
             {moment(data.createdAt).fromNow()}
@@ -59,8 +79,9 @@ function Post({ data }) {
           variant="primary"
           className="m-2"
           onClick={() => dispatch(likePost(data._id))}
+          disabled={!user._id}
         >
-          <i className="fa-solid fa-thumbs-up"></i> {data.likeCount} Like
+          <Likes />
         </Button>
       </Card>
 

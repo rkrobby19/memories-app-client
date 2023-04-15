@@ -105,13 +105,17 @@ function Auth() {
               id="password"
               onChange={handleOnChange}
             />
-            <InputGroup.Text id="showPassword" onClick={togglePassword}>
+            <Button
+              variant="outline-secondary"
+              id="showPassword"
+              onClick={togglePassword}
+            >
               {showPassword ? (
                 <i className="fa-solid fa-eye-slash"></i>
               ) : (
                 <i className="fa-solid fa-eye"></i>
               )}
-            </InputGroup.Text>
+            </Button>
           </InputGroup>
         </Form.Group>
 
@@ -124,13 +128,17 @@ function Auth() {
                 id="confirmPassword"
                 onChange={handleOnChange}
               />
-              <InputGroup.Text id="showConfirmPassword" onClick={toggleConfirm}>
+              <Button
+                variant="outline-secondary"
+                id="showConfirmPassword"
+                onClick={toggleConfirm}
+              >
                 {showConfirm ? (
                   <i className="fa-solid fa-eye-slash"></i>
                 ) : (
                   <i className="fa-solid fa-eye"></i>
                 )}
-              </InputGroup.Text>
+              </Button>
             </InputGroup>
           </Form.Group>
         )}

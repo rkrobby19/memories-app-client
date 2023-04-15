@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import UpdateModal from "./UpdateModal";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
-import { useRouter } from "next/router";
 
-function Post({ data }) {
+function Post({ data, user }) {
   const dispatch = useDispatch();
-
-  const [user, setUser] = useState({});
-  const router = useRouter();
 
   const [show, setShow] = useState(false);
 
@@ -27,7 +23,7 @@ function Post({ data }) {
         </>
       ) : (
         <>
-          <i class="fa-regular fa-thumbs-up"></i> {data.likes.length}{" "}
+          <i className="fa-regular fa-thumbs-up"></i> {data.likes.length}{" "}
           {data.likes.length > 1 ? "Likes" : "Like"}
         </>
       );
@@ -35,19 +31,10 @@ function Post({ data }) {
 
     return (
       <>
-        <i class="fa-regular fa-thumbs-up"></i>
+        <i className="fa-regular fa-thumbs-up"></i>
       </>
     );
   };
-
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (user && token) {
-      setUser(user);
-    }
-  }, [router]);
 
   return (
     <div style={{ width: "18rem" }}>

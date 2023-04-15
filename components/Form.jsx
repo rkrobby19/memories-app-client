@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { addPost } from "@/redux/reducer/posts";
 import FileBase from "react-file-base64";
-import { useRouter } from "next/router";
 
 // TODO: set create logic animation for reset form value
 
-function InputForm() {
-  const [user, setUser] = useState({});
-  const router = useRouter();
-
+function InputForm({ user }) {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: "",
@@ -36,16 +32,6 @@ function InputForm() {
       selectedFile: "",
     });
   };
-
-  // TODO fix bug not rendering when user already logged in
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (user && token) {
-      setUser(user);
-    }
-  }, [router]);
 
   if (!user.email) {
     return (

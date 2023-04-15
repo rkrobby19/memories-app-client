@@ -1,22 +1,21 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useDispatch } from "react-redux";
-import { logOut } from "@/redux/reducer/user";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, setCurrentUser } from "@/redux/reducer/user";
 import { useRouter } from "next/router";
 import decode from "jwt-decode";
 
 function AppBar() {
-  const [user, setUser] = useState({});
+  const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const userLogout = () => {
     dispatch(logOut());
-    setUser({});
     router.push("/auth");
   };
 
@@ -24,7 +23,7 @@ function AppBar() {
     const token = JSON.parse(localStorage.getItem("token"));
     const user = JSON.parse(localStorage.getItem("user"));
     if (user && token) {
-      setUser(user);
+      dispatch(setCurrentUser(user));
       const decodedToken = decode(token);
 
       if (decodedToken.exp * 1000 < new Date().getTime()) {
@@ -46,13 +45,16 @@ function AppBar() {
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
-            {user?.email ? (
+            {currentUser?._id ? (
               <NavDropdown
-                title={user.firstName}
+                title={currentUser.firstName}
                 id="basic-nav-dropdown"
                 className="me-4"
               >
-                <NavDropdown.Item href="#" onClick={() => console.log(user)}>
+                <NavDropdown.Item
+                  href="#"
+                  onClick={() => console.log(currentUser)}
+                >
                   Your Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item href="#">Settings</NavDropdown.Item>

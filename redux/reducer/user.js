@@ -17,7 +17,7 @@ export const signUp = createAsyncThunk(
       password,
       confirmPassword,
     });
-    console.log(response.data);
+
     return response.data;
   }
 );
@@ -29,7 +29,7 @@ export const signIn = createAsyncThunk(
       email,
       password,
     });
-    console.log(response.data);
+
     return response.data;
   }
 );
@@ -41,6 +41,10 @@ const userSlice = createSlice({
     logOut(state, action) {
       localStorage.clear();
       state.user = {};
+      return state;
+    },
+    setCurrentUser(state, action) {
+      state.user = action.payload;
       return state;
     },
   },
@@ -60,6 +64,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logOut } = userSlice.actions;
+export const { logOut, setCurrentUser } = userSlice.actions;
 
 export default userSlice.reducer;

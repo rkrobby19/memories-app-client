@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { signIn, signUp } from "@/redux/reducer/user";
 import { useRouter } from "next/router";
 
+// TODO add form validation
+
 function Auth() {
   const dispatch = useDispatch();
   const router = useRouter();

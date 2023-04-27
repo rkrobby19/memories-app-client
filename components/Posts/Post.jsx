@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Button, Card } from "react-bootstrap";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
 import UpdateModal from "../Modals/UpdateModal";
+
+// TODO limiting post height
 
 function Post({ data, user }) {
   const dispatch = useDispatch();

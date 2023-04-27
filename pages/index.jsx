@@ -1,15 +1,13 @@
 import Head from "next/head";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { Layout, LoadingSpinner, Posts } from "@/components/Index";
 import { fetchPosts } from "@/redux/reducer/posts";
-import LoadingSpinner from "@/components/Animation/LoadingSpinner";
-import AppBar from "@/components/Navbar/AppBar";
-import InputForm from "@/components/Form/InputForm";
-import Posts from "@/components/Posts/Posts";
-import MyPagination from "@/components/MyPagination";
+
+function useQuery() {
+  return new URLSearchParams(useRouter().search);
+}
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -18,6 +16,10 @@ export default function Home() {
   const user = useSelector((state) => state.user.user);
 
   const postStatus = useSelector((state) => state.posts.status);
+
+  const query = useQuery();
+  const page = query.get("page") || 1;
+  const searchQuery = query.get("searchQuery");
 
   let content;
   if (postStatus === "loading") {
@@ -55,26 +57,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        {/* TODO: reverse row stack when resizing */}
-        <Container>
-          <AppBar />
-          <Row>
-            <Col xs={12} md={6} lg={8}>
-              {content}
-            </Col>
-            <Col xs={12} md={6} lg={4}>
-              <InputForm user={user} />
-              <Container
-                className="d-flex justify-content-center"
-                style={{ width: "19rem" }}
-              >
-                <MyPagination />
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      </main>
+      <main>{content}</main>
     </>
   );
 }
+
+Home.getLayout = function getLayout(Home) {
+  return <Layout>{Home}</Layout>;
+};

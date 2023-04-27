@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addPost } from "@/redux/reducer/posts";
 import FileBase from "react-file-base64";
@@ -19,7 +18,7 @@ function InputForm({ user }) {
 
   const handleSubmit = async () => {
     const data = postData;
-    await dispatch(addPost(data));
+    dispatch(addPost(data));
 
     // TODO create alert notification
   };

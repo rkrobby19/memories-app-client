@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { Button, Container, Form, InputGroup } from "react-bootstrap";
 import { MuiChipsInput } from "mui-chips-input";
+import { useDispatch } from "react-redux";
+import { fetchPostsBySearch } from "@/redux/reducer/posts";
+import { useRouter } from "next/router";
 
-function Search() {
-  const [search, setSearch] = useState();
+function SearchBar() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [query, setQuery] = useState();
   const [tags, setTags] = useState([]);
 
   const handleAddChip = (tag) => setTags([...tags, tag]);
@@ -13,12 +19,18 @@ function Search() {
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
-      console.log(search);
+      console.log(query);
     }
   };
 
   const handleSearchPosts = () => {
-    // Search logic going this way
+    // Bar logic going this way
+    if (query || tags) {
+      dispatch(fetchPostsBySearch({ query, tags: tags.join(",") }));
+      router.push(`/search?q=${query}&tags=${tags.join(",")}`);
+    } else {
+      router.push("/");
+    }
   };
 
   return (
@@ -26,19 +38,15 @@ function Search() {
       className="border rounded p-3 bg-white m-4"
       style={{ width: "19rem" }}
     >
-      <InputGroup className="mb-3" controlId="searchQuery" size="sm">
+      <InputGroup className="mb-3" size="sm">
         <Form.Control
           placeholder="Search"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
         />
-        <Button
-          variant="outline-secondary"
-          id="button-search"
-          onClick={() => console.log(search)}
-        >
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </Button>
+        <InputGroup.Text variant="outline-secondary" id="search-logo">
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </InputGroup.Text>
       </InputGroup>
       <MuiChipsInput
         style={{ width: "100%" }}
@@ -55,7 +63,10 @@ function Search() {
           variant="primary"
           size="sm"
           className="mt-2"
-          onClick={() => console.log({ search, tags })}
+          onClick={() => {
+            // alert(`clicked`);
+            handleSearchPosts();
+          }}
         >
           Search
         </Button>
@@ -64,4 +75,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchBar;

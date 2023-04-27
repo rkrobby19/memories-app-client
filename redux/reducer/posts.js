@@ -14,6 +14,15 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   return response.data;
 });
 
+export const fetchPostsBySearch = createAsyncThunk(
+  "post/fetchPostsBySearch",
+  async ({ query, tags }) => {
+    const response = await api.getPostsBySearch({ query, tags });
+
+    return response.data;
+  }
+);
+
 export const addPost = createAsyncThunk(
   "posts/addNewPost",
   async ({ creator, title, message, tags, selectedFile }) => {
@@ -67,6 +76,20 @@ const postsSlice = createSlice({
       return state;
     });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.posts = action.payload.posts;
+      return state;
+    });
+    builder.addCase(fetchPostsBySearch.pending, (state, action) => {
+      state.status = "loading";
+      return state;
+    });
+    builder.addCase(fetchPostsBySearch.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = "error";
+      return state;
+    });
+    builder.addCase(fetchPostsBySearch.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.posts = action.payload.posts;
       return state;

@@ -1,9 +1,6 @@
 import Link from "next/link";
 import React, { useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { Button, Container, NavDropdown, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, setCurrentUser } from "@/redux/reducer/user";
 import { useRouter } from "next/router";
@@ -27,7 +24,7 @@ function AppBar() {
       const decodedToken = decode(token);
 
       if (decodedToken.exp * 1000 < new Date().getTime()) {
-        logOut();
+        userLogout();
       }
     }
   }, [router]);

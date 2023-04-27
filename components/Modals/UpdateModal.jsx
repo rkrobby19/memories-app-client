@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Container, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, updatedPost } from "@/redux/reducer/posts";
 

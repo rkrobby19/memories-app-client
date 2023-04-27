@@ -28,6 +28,12 @@ export const getPosts = async () => {
   return data;
 };
 
+export const getPostsBySearch = async ({ query, tags }) => {
+  const data = await API.get(`/posts/search?q=${query || "none"}&tags=${tags}`);
+
+  return data;
+};
+
 export const updatePostById = async ({ id, inputData }) => {
   const updatedPost = await API.put(`/posts/${id}`, inputData);
 

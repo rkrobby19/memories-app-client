@@ -1,9 +1,8 @@
-import AppBar from "@/components/Navbar/AppBar";
-import Auth from "@/components/Auth/Auth";
 import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { AppBar, Auth } from "@/components/Index";
 
 function auth() {
   const currentUser = useSelector((state) => state.user.user);

@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: [],
+  search: [],
   status: "idle",
   // status: 'idle' | 'loading' | 'succeeded' | 'failed',
   error: null,
@@ -91,7 +92,7 @@ const postsSlice = createSlice({
     });
     builder.addCase(fetchPostsBySearch.fulfilled, (state, action) => {
       state.status = "succeeded";
-      state.posts = action.payload.posts;
+      state.search = action.payload.posts;
       return state;
     });
     builder.addCase(addPost.fulfilled, (state, action) => {

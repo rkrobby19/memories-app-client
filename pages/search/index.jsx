@@ -10,7 +10,7 @@ function SearchIndex() {
   const router = useRouter();
   const { q, tags } = router.query;
 
-  const { posts, status } = useSelector((state) => state.posts);
+  const { posts, status, search } = useSelector((state) => state.posts);
   const user = useSelector((state) => state.user.user);
 
   let content;
@@ -24,8 +24,8 @@ function SearchIndex() {
       </div>
     );
   } else if (status === "succeeded") {
-    console.log(posts);
-    if (posts.length === 0) {
+    console.log(search);
+    if (search.length === 0) {
       content = (
         <div
           className="container-fluid d-flex align-items-center justify-content-center"
@@ -35,7 +35,7 @@ function SearchIndex() {
         </div>
       );
     } else {
-      content = <Posts data={posts} user={user} />;
+      content = <Posts data={search} user={user} />;
     }
   } else if (status === "failed") {
     content = (

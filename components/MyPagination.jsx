@@ -1,26 +1,39 @@
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { fetchPosts } from "@/redux/reducer/posts";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
+import { useDispatch, useSelector } from "react-redux";
 
-function MyPagination() {
-  const router = useRouter();
-  const { pages } = router.query;
-
+function MyPagination({ pages }) {
   const [active, setActive] = useState(pages);
 
+  const { numberOfPages } = useSelector((state) => state.posts);
+
+  const dispatch = useDispatch();
+
   let items = [];
-  for (let number = 1; number <= 5; number++) {
+  for (let number = 1; number <= numberOfPages; number++) {
     items.push(
       <Pagination.Item
         key={number}
-        active={number === active}
+        active={number === Number(pages)}
         onClick={() => setActive(number)}
-        href={`/posts?pages=${number}`}
       >
-        {number}
+        <Link
+          href={`/posts?pages=${number}`}
+          style={{ textDecoration: "none" }}
+        >
+          {number}
+        </Link>
       </Pagination.Item>
     );
   }
+
+  useEffect(() => {
+    if (pages) {
+      dispatch(fetchPosts(pages));
+    }
+  }, [dispatch, pages]);
 
   return <Pagination>{items}</Pagination>;
 }

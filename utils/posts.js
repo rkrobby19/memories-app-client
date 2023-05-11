@@ -22,8 +22,8 @@ export const createPost = async ({
   return newPost;
 };
 
-export const getPosts = async () => {
-  const data = await API.get(`/posts`);
+export const getPosts = async (pages) => {
+  const data = await API.get(`/posts?pages=${pages}`);
 
   return data;
 };

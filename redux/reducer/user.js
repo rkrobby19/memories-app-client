@@ -1,9 +1,10 @@
+import { Status } from "@/constants/reducer";
 import * as api from "@/utils/user";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {},
-  status: "idle",
+  status: Status.Idle,
   error: null,
 };
 

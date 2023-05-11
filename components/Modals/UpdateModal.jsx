@@ -5,11 +5,11 @@ import { deletePost, updatedPost } from "@/redux/reducer/posts";
 
 // TODO update tags by separate comma
 
-function UpdateModal({ show, handleClose, id }) {
+function UpdateModal({ show, handleClose, id, post }) {
   const dispatch = useDispatch();
-  const post = useSelector((state) =>
-    id ? state.posts.posts.find((message) => message._id === id) : null
-  );
+  // const post = useSelector((state) =>
+  //   id ? state.posts.posts.find((post) => post._id === id) : null
+  // );
 
   const [inputData, setInputData] = useState({
     title: post.title,

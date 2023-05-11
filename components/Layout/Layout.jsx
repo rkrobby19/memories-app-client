@@ -5,8 +5,12 @@ import InputForm from "../Form/InputForm";
 import MyPagination from "../MyPagination";
 import { useSelector } from "react-redux";
 import Search from "../SearchBar";
+import { useRouter } from "next/router";
 
 function Layout({ children }) {
+  const router = useRouter();
+  const { pages } = router.query;
+
   const user = useSelector((state) => state.user.user);
 
   return (
@@ -25,7 +29,7 @@ function Layout({ children }) {
               className="d-flex justify-content-center"
               style={{ width: "19rem" }}
             >
-              <MyPagination />
+              <MyPagination pages={pages} />
             </Container>
           </Col>
         </Row>

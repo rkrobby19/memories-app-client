@@ -1,5 +1,6 @@
 // Search Page
 import { Layout, LoadingSpinner, Posts } from "@/components/Index";
+import { Status } from "@/constants/reducer";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -14,7 +15,7 @@ function SearchIndex() {
   const user = useSelector((state) => state.user.user);
 
   let content;
-  if (status === "loading") {
+  if (status === Status.Loading) {
     content = (
       <div
         className="container-fluid d-flex align-items-center justify-content-center"
@@ -23,8 +24,7 @@ function SearchIndex() {
         <LoadingSpinner />;
       </div>
     );
-  } else if (status === "succeeded") {
-    console.log(search);
+  } else if (status === Status.Success) {
     if (search.length === 0) {
       content = (
         <div
@@ -37,7 +37,7 @@ function SearchIndex() {
     } else {
       content = <Posts data={search} user={user} />;
     }
-  } else if (status === "failed") {
+  } else if (status === Status.Failed) {
     content = (
       <div
         className="container-fluid d-flex align-items-center justify-content-center"

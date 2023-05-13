@@ -1,9 +1,10 @@
 import { API } from "./uri";
 
 API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token");
-  if (token) {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("token");
     req.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+    return req;
   }
   return req;
 });
@@ -24,6 +25,32 @@ export const createPost = async ({
 
 export const getPosts = async (pages) => {
   const data = await API.get(`/posts?pages=${pages}`);
+
+  return data;
+};
+
+export const getAllPosts = async () => {
+  const data = await API.get(`/posts`);
+
+  return data;
+};
+
+export const getAllPostsId = async () => {
+  const { data } = await getAllPosts();
+
+  const { posts } = data;
+
+  return posts.map((post) => {
+    return {
+      params: {
+        id: post._id,
+      },
+    };
+  });
+};
+
+export const getPostById = async (id) => {
+  const data = await API.get(`/posts/${id}`);
 
   return data;
 };

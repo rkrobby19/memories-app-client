@@ -18,7 +18,6 @@ function auth() {
         <title>Auth</title>
       </Head>
       <main>
-        <AppBar />
         <Auth />
       </main>
     </>

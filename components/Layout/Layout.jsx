@@ -1,6 +1,5 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import AppBar from "../Navbar/AppBar";
 import InputForm from "../Form/InputForm";
 import MyPagination from "../MyPagination";
 import { useSelector } from "react-redux";
@@ -17,7 +16,6 @@ function Layout({ children }) {
     <main>
       {/* TODO: reverse row stack when resizing */}
       <Container>
-        <AppBar />
         <Row>
           <Col xs={12} md={6} lg={8}>
             {children}

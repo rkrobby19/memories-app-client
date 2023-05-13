@@ -76,7 +76,10 @@ function Post({ data, user }) {
           <Card.Title>{data.title}</Card.Title>
           <Card.Text>
             {data.message.substring(0, 100)}...{" "}
-            <Link href="/" style={{ textDecoration: "none" }}>
+            <Link
+              href={`/posts/${data._id}`}
+              style={{ textDecoration: "none" }}
+            >
               Read More
             </Link>{" "}
           </Card.Text>

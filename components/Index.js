@@ -10,3 +10,4 @@ export { default as Posts } from "./Posts/Posts";
 export { default as MyPagination } from "./MyPagination";
 export { default as SearchBar } from "./SearchBar";
 export { default as PostDetails } from "./Posts/PostDetails";
+export { default as RecommendedPosts } from "./Posts/RecommendedPosts";

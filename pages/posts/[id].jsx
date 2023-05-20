@@ -1,6 +1,6 @@
 import { PostDetails, RecommendedPosts } from "@/components/Index";
 import { fetchPostsBySearch } from "@/redux/reducer/posts";
-import { getAllPostsId, getPostById } from "@/utils/posts";
+import { getAllPostsId, getPostById } from "@/services/posts";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";

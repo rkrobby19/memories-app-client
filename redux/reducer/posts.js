@@ -1,5 +1,5 @@
 import { Status } from "@/constants/reducer";
-import * as api from "@/utils/posts";
+import * as api from "@/services/posts";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // TODO change initial state to read post data for user update modal

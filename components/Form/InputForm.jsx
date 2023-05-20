@@ -52,6 +52,7 @@ function InputForm({ user }) {
 
         <Form.Group className="mb-3" controlId="title">
           <Form.Control
+            required
             size="sm"
             type="text"
             placeholder="Title"
@@ -64,6 +65,7 @@ function InputForm({ user }) {
 
         <Form.Group className="mb-3" controlId="message">
           <Form.Control
+            required
             size="sm"
             as="textarea"
             rows={3}
@@ -77,6 +79,7 @@ function InputForm({ user }) {
 
         <Form.Group className="mb-3" controlId="tags">
           <Form.Control
+            required
             size="sm"
             type="text"
             placeholder="Tags (separate with comma)"

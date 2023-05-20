@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Container, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, updatedPost } from "@/redux/reducer/posts";
 
 // TODO update tags by separate comma
 
-function UpdateModal({ show, handleClose, id }) {
+function UpdateModal({ show, handleClose, id, post }) {
   const dispatch = useDispatch();
-  const post = useSelector((state) =>
-    id ? state.posts.posts.find((message) => message._id === id) : null
-  );
+  // const post = useSelector((state) =>
+  //   id ? state.posts.posts.find((post) => post._id === id) : null
+  // );
 
   const [inputData, setInputData] = useState({
     title: post.title,

@@ -1,9 +1,6 @@
 import Link from "next/link";
 import React, { useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { Button, Container, NavDropdown, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, setCurrentUser } from "@/redux/reducer/user";
 import { useRouter } from "next/router";
@@ -27,51 +24,49 @@ function AppBar() {
       const decodedToken = decode(token);
 
       if (decodedToken.exp * 1000 < new Date().getTime()) {
-        logOut();
+        userLogout();
       }
     }
   }, [router]);
 
   return (
-    <Container>
-      <Navbar bg="light" className="rounded">
-        <Container className="d-flex justify-content-center">
-          <Navbar.Brand className="ms-4">
-            <Link
-              href="/"
-              className="text-decoration-none text-dark fs-3 fw-bold font-monospace"
+    <Navbar bg="light" className="rounded-bottom">
+      <Container className="d-flex justify-content-center">
+        <Navbar.Brand className="ms-4">
+          <Link
+            href="/"
+            className="text-decoration-none text-dark fs-3 fw-bold font-monospace"
+          >
+            Memories <i className="fa-solid fa-images"></i>
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Collapse className="justify-content-end">
+          {currentUser?._id ? (
+            <NavDropdown
+              title={currentUser.firstName}
+              id="basic-nav-dropdown"
+              className="me-4"
             >
-              Memories <i className="fa-solid fa-images"></i>
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Collapse className="justify-content-end">
-            {currentUser?._id ? (
-              <NavDropdown
-                title={currentUser.firstName}
-                id="basic-nav-dropdown"
-                className="me-4"
+              <NavDropdown.Item
+                href="#"
+                onClick={() => console.log(currentUser)}
               >
-                <NavDropdown.Item
-                  href="#"
-                  onClick={() => console.log(currentUser)}
-                >
-                  Your Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#">Settings</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#" onClick={() => userLogout()}>
-                  Log Out
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <Link href="/auth" className="me-4">
-                <Button>Sign In</Button>
-              </Link>
-            )}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </Container>
+                Your Profile
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#">Settings</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#" onClick={() => userLogout()}>
+                Log Out
+              </NavDropdown.Item>
+            </NavDropdown>
+          ) : (
+            <Link href="/auth" className="me-4">
+              <Button>Sign In</Button>
+            </Link>
+          )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 

@@ -1,18 +1,34 @@
-import * as api from "@/utils/posts";
+import { Status } from "@/constants/reducer";
+import * as api from "@/services/posts";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// TODO change initial state to read post data for user update modal
 
 const initialState = {
   posts: [],
-  status: "idle",
-  // status: 'idle' | 'loading' | 'succeeded' | 'failed',
+  search: [],
+  status: Status.Idle,
   error: null,
-  // error: string | null
+  currentPage: null,
+  numberOfPages: null,
 };
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await api.getPosts();
-  return response.data;
-});
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async (pages) => {
+    const response = await api.getPosts(pages);
+    return response.data;
+  }
+);
+
+export const fetchPostsBySearch = createAsyncThunk(
+  "post/fetchPostsBySearch",
+  async ({ query, tags }) => {
+    const response = await api.getPostsBySearch({ query, tags });
+
+    return response.data;
+  }
+);
 
 export const addPost = createAsyncThunk(
   "posts/addNewPost",
@@ -58,17 +74,33 @@ const postsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchPosts.pending, (state, action) => {
-      state.status = "loading";
+      state.status = Status.Loading;
       return state;
     });
     builder.addCase(fetchPosts.rejected, (state, action) => {
-      state.status = "failed";
+      state.status = Status.Failed;
       state.error = "error";
       return state;
     });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
-      state.status = "succeeded";
+      state.status = Status.Success;
       state.posts = action.payload.posts;
+      state.currentPage = action.payload.currentPage;
+      state.numberOfPages = action.payload.numberOfPages;
+      return state;
+    });
+    builder.addCase(fetchPostsBySearch.pending, (state, action) => {
+      state.status = Status.Loading;
+      return state;
+    });
+    builder.addCase(fetchPostsBySearch.rejected, (state, action) => {
+      state.status = Status.Failed;
+      state.error = "error";
+      return state;
+    });
+    builder.addCase(fetchPostsBySearch.fulfilled, (state, action) => {
+      state.status = Status.Success;
+      state.search = action.payload.posts;
       return state;
     });
     builder.addCase(addPost.fulfilled, (state, action) => {

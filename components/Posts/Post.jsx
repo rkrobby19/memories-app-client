@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Button, Card } from "react-bootstrap";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { likePost } from "@/redux/reducer/posts";
 import UpdateModal from "../Modals/UpdateModal";
+import Link from "next/link";
+
+// TODO limiting post height
 
 function Post({ data, user }) {
   const dispatch = useDispatch();
@@ -72,7 +74,15 @@ function Post({ data, user }) {
             {data.tags.map((tag) => `#${tag} `)}
           </Card.Text>
           <Card.Title>{data.title}</Card.Title>
-          <Card.Text>{data.message}</Card.Text>
+          <Card.Text>
+            {data.message.substring(0, 100)}...{" "}
+            <Link
+              href={`/posts/${data._id}`}
+              style={{ textDecoration: "none" }}
+            >
+              Read More
+            </Link>{" "}
+          </Card.Text>
         </Card.Body>
 
         <Button
@@ -85,7 +95,12 @@ function Post({ data, user }) {
         </Button>
       </Card>
 
-      <UpdateModal show={show} handleClose={handleClose} id={data._id} />
+      <UpdateModal
+        show={show}
+        handleClose={handleClose}
+        id={data._id}
+        post={data}
+      />
     </div>
   );
 }

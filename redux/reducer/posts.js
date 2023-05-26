@@ -68,6 +68,15 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+export const commentPost = createAsyncThunk(
+  "posts/commentPostById",
+  async ({ finalComment, id }) => {
+    const response = await api.commentPostById({ id, finalComment });
+    console.log(response);
+    return response;
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -115,6 +124,9 @@ const postsSlice = createSlice({
       state.posts = state.posts.map((post) =>
         post._id === action.payload.post._id ? action.payload.post : post
       );
+    });
+    builder.addCase(commentPost.fulfilled, (state, action) => {
+      return state;
     });
     builder.addCase(deletePost.fulfilled, (state, action) => {
       state.posts = state.posts.filter(

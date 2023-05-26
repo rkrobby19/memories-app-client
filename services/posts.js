@@ -73,6 +73,12 @@ export const likePostById = async (id) => {
   return likePost;
 };
 
+export const commentPostById = async ({ id, finalComment }) => {
+  const commentPost = await API.post(`/posts/${id}/commentPost`, finalComment);
+
+  return commentPost;
+};
+
 export const deletePostById = async (id) => {
   const data = await API.delete(`/posts/${id}`);
 

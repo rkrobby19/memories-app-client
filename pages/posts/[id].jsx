@@ -1,4 +1,9 @@
-import { PostDetails, RecommendedPosts } from "@/components/Index";
+import {
+  CommentInput,
+  Comments,
+  PostDetails,
+  RecommendedPosts,
+} from "@/components/Index";
 import { fetchPostsBySearch } from "@/redux/reducer/posts";
 import { getAllPostsId, getPostById } from "@/services/posts";
 import React, { useEffect, useState } from "react";
@@ -8,14 +13,19 @@ import { useDispatch } from "react-redux";
 function PostDetailsPage({ data }) {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState(data.post.comments);
 
   const recommendedPosts = posts.filter((post) => post._id !== data.post._id);
+
+  const handleNewComment = (newComment) => {
+    setComments(newComment);
+  };
 
   useEffect(() => {
     dispatch(
       fetchPostsBySearch({ query: "none", tags: data.post.tags.join(",") })
     ).then((result) => setPosts(result.payload.posts));
-  }, [data]);
+  }, [data, comments]);
   return (
     <>
       <Container
@@ -39,6 +49,10 @@ function PostDetailsPage({ data }) {
         <h4>You Might Also Like:</h4>
         <RecommendedPosts posts={recommendedPosts} />
       </Container>
+      <Container>
+        <CommentInput id={data.post._id} setNewComment={handleNewComment} />
+        <Comments comments={comments} />
+      </Container>{" "}
     </>
   );
 }

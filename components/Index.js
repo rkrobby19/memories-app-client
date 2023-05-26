@@ -11,3 +11,5 @@ export { default as MyPagination } from "./MyPagination";
 export { default as SearchBar } from "./SearchBar";
 export { default as PostDetails } from "./Posts/PostDetails";
 export { default as RecommendedPosts } from "./Posts/RecommendedPosts";
+export { default as CommentInput } from "./Comments/CommentInput";
+export { default as Comments } from "./Comments/Comments";

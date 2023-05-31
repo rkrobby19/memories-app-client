@@ -29,7 +29,7 @@ function SignUpMenu() {
           lastName: user.family_name,
         })
       );
-      router.push("/");
+      router.push("/posts?pages=1");
       // console.log(tokens.data.tokens.id_token); <- Google JWT access token
       // console.lgo(tokens.data.tokens.refresh_token) <- send this to BE for refresh the access token
     },

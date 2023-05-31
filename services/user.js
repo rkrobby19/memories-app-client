@@ -7,15 +7,30 @@ export const userSignUp = async ({
   password,
   confirmPassword,
 }) => {
-  const data = { firstName, lastName, email, password, confirmPassword };
-  const user = await API.post(`/users/signup`, data);
+  try {
+    const data = { firstName, lastName, email, password, confirmPassword };
+    const user = await API.post(`/users/signup`, data);
 
-  return user;
+    return user;
+  } catch (error) {
+    const { response } = error;
+    return {
+      status: response.status,
+      data: response.data,
+    };
+  }
 };
 
 export const userSignIn = async ({ email, password }) => {
-  const data = { email, password };
-  const user = await API.post(`/users/signin`, data);
-
-  return user;
+  try {
+    const data = { email, password };
+    const user = await API.post(`/users/signin`, data);
+    return user;
+  } catch (error) {
+    const { response } = error;
+    return {
+      status: response.status,
+      data: response.data,
+    };
+  }
 };

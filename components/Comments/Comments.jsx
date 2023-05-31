@@ -3,11 +3,7 @@ import Comment from "./Comment";
 
 function Comments({ comments }) {
   return (
-    <>
-      {comments.map((c, i) => (
-        <Comment comment={c} key={i} />
-      ))}
-    </>
+    <>{comments && comments.map((c, i) => <Comment comment={c} key={i} />)}</>
   );
 }
 

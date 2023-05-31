@@ -1,46 +1,7 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { Layout, LoadingSpinner, Posts } from "@/components/Index";
-import { fetchPosts } from "@/redux/reducer/posts";
-import { Status } from "@/constants/reducer";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const dispatch = useDispatch();
-
-  const posts = useSelector((state) => state.posts.posts);
-  const user = useSelector((state) => state.user.user);
-
-  const postStatus = useSelector((state) => state.posts.status);
-
-  let content;
-  if (postStatus === Status.Loading) {
-    content = (
-      <div
-        className="container-fluid d-flex align-items-center justify-content-center"
-        style={{ height: "100vh" }}
-      >
-        <LoadingSpinner />;
-      </div>
-    );
-  } else if (postStatus === Status.Success) {
-    content = <Posts data={posts} user={user} />;
-  } else if (postStatus === Status.Failed) {
-    content = (
-      <div>
-        <p>Error happens</p>
-        {error}
-      </div>
-    );
-  }
-
-  useEffect(() => {
-    if (postStatus === Status.Idle) {
-      dispatch(fetchPosts());
-    }
-  }, [postStatus, dispatch]);
-
   return (
     <>
       <Head>
@@ -49,11 +10,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>{content}</main>
+      <main>
+        <div className={styles.landing}>
+          <h1 className={`${styles.hero} fw-bold`}>MEMORIES</h1>
+          <p className="text-capitalize">
+            keep your memories in touch and share with others
+          </p>
+        </div>
+      </main>
     </>
   );
 }
-
-Home.getLayout = function getLayout(Home) {
-  return <Layout>{Home}</Layout>;
-};

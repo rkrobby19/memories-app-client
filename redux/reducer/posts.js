@@ -72,7 +72,6 @@ export const commentPost = createAsyncThunk(
   "posts/commentPostById",
   async ({ finalComment, id }) => {
     const response = await api.commentPostById({ id, finalComment });
-    console.log(response);
     return response;
   }
 );

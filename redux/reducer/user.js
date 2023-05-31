@@ -11,27 +11,33 @@ const initialState = {
 export const signUp = createAsyncThunk(
   "user/signUp",
   async ({ firstName, lastName, email, password, confirmPassword }) => {
-    const response = await api.userSignUp({
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-    });
-
-    return response.data;
+    try {
+      const { data, status } = await api.userSignUp({
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+      });
+      return { data, status };
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
 export const signIn = createAsyncThunk(
   "user/signIn",
   async ({ email, password }) => {
-    const response = await api.userSignIn({
-      email,
-      password,
-    });
-
-    return response.data;
+    try {
+      const { data, status } = await api.userSignIn({
+        email,
+        password,
+      });
+      return { data, status };
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -51,16 +57,34 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
-      return state;
+      if (action.payload.status === 200) {
+        state.user = action.payload.data.user;
+        localStorage.setItem("user", JSON.stringify(action.payload.data.user));
+        localStorage.setItem(
+          "token",
+          JSON.stringify(action.payload.data.token)
+        );
+        return state;
+      } else {
+        state.status = Status.Failed;
+        state.error = action.payload.data.message;
+        return state;
+      }
     });
     builder.addCase(signIn.fulfilled, (state, action) => {
-      state.user = action.payload.user;
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
-      return state;
+      if (action.payload.status === 200) {
+        state.user = action.payload.data.user;
+        localStorage.setItem("user", JSON.stringify(action.payload.data.user));
+        localStorage.setItem(
+          "token",
+          JSON.stringify(action.payload.data.token)
+        );
+        return state;
+      } else {
+        state.status = Status.Failed;
+        state.error = action.payload.data.message;
+        return state;
+      }
     });
   },
 });

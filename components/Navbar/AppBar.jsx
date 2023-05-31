@@ -30,15 +30,24 @@ function AppBar() {
   }, [router]);
 
   return (
-    <Navbar bg="light" className="rounded-bottom">
+    <Navbar bg="light" className="rounded-bottom border-bottom">
       <Container className="d-flex justify-content-center">
         <Navbar.Brand className="ms-4">
-          <Link
-            href="/"
-            className="text-decoration-none text-dark fs-3 fw-bold font-monospace"
-          >
-            Memories <i className="fa-solid fa-images"></i>
-          </Link>
+          {currentUser?._id ? (
+            <Link
+              href="/posts?pages=1"
+              className="text-decoration-none text-dark fs-3 fw-bold font-monospace"
+            >
+              Memories <i className="fa-solid fa-images"></i>
+            </Link>
+          ) : (
+            <Link
+              href="/"
+              className="text-decoration-none text-dark fs-3 fw-bold font-monospace"
+            >
+              Memories <i className="fa-solid fa-images"></i>
+            </Link>
+          )}
         </Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
           {currentUser?._id ? (
